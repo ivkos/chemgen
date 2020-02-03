@@ -1,0 +1,15 @@
+{
+  "name": "chemgen",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": {
+    "name": "Ivaylo Stoyanov",
+    "email": "me@ivkos.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
