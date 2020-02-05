@@ -1,6 +1,6 @@
 const fs = require("fs")
 const axios = require("axios")
-const modifiers = readIntoArray("./0-modifiers.txt", true)
+const modifiers = readIntoArray("./0-modifiers.txt")
 const left = readIntoArray("./1-left.txt")
 const right = readIntoArray("./3-right.txt")
 
@@ -26,23 +26,21 @@ exports.generateNew = async (req, res) => {
 };
 
 function generateNew() {
-	return `${pick(modifiers)}${pick(left)} ${pick(modifiers)}${pick(right)}`
+	return `${pick(modifiers, 0.25)}${pick(left)} ${pick(modifiers, 0.25)}${pick(right)}`
 }
 
-function pick(arr) {
+function pick(arr, probabilityOfEmpty = 0) {
+	if (Math.random() < probabilityOfEmpty) {
+		return ""
+	}
+
 	return arr[~~(Math.random() * arr.length)]
 }
 
-function readIntoArray(filename, withEmpty = false) {
+function readIntoArray(filename) {
 	const file = fs.readFileSync(filename, "utf-8")
 
-	const result = file.split("\n")
+	return file.split("\n")
 		.map(str => str.trim())
 		.filter(str => str !== "")
-
-	if (withEmpty) {
-		result.push("")
-	}
-
-	return result
 }
