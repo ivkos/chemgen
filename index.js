@@ -36,7 +36,9 @@ function pick(arr) {
 function readIntoArray(filename, withEmpty = false) {
 	const file = fs.readFileSync(filename, "utf-8")
 
-	const result = file.split("\n").filter(str => str !== "")
+	const result = file.split("\n")
+		.map(str => str.trim())
+		.filter(str => str !== "")
 
 	if (withEmpty) {
 		result.push("")
