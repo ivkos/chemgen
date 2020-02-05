@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: 
+    - install
+
+  - name: 'gcr.io/cloud-builders/gcloud-slim'
+    args:
+    - functions
+    - deploy
+    - ${_NAME}
+    - --region=${_REGION}
+    - --source=.
+    - --runtime=nodejs8
