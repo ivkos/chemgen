@@ -2,9 +2,9 @@ const { pickRandomFromArray, readIntoArray } = require("./utils")
 const postOnFacebook = require("./connectors/ifttt-facebook")
 const postOnTwitter = require("./connectors/ifttt-twitter")
 
-const modifiers = readIntoArray("../data/0-modifiers.txt")
-const left = readIntoArray("../data/1-left.txt")
-const right = readIntoArray("../data/3-right.txt")
+const modifiers = readIntoArray(__dirname + "/../data/0-modifiers.txt")
+const left = readIntoArray(__dirname + "/../data/1-left.txt")
+const right = readIntoArray(__dirname + "/../data/3-right.txt")
 
 
 function generateNew() {
