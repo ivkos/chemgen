@@ -6,4 +6,7 @@ steps:
     - ${_NAME}
     - --region=${_REGION}
     - --source=.
+    - --entry-point=entry
     - --runtime=nodejs10
+    - --trigger-http
+    - --memory=128MB

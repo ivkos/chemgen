@@ -2,6 +2,7 @@ require("dotenv/config")
 const { pickRandomFromArray, readIntoArray } = require("./utils")
 const postOnFacebook = require("./connectors/ifttt-facebook")
 const postOnTwitter = require("./connectors/ifttt-twitter")
+const express = require("express")
 
 const modifiers = readIntoArray(__dirname + "/../data/0-modifiers.txt")
 const left = readIntoArray(__dirname + "/../data/1-left.txt")
@@ -15,22 +16,34 @@ function generateNew() {
         `${pickRandomFromArray(right)}`
 }
 
-exports.generateNew = async (req, res) => {
-    if (req.method === "GET") {
-        return res.status(200).send(generateNew())
-    }
+const app = express()
 
-    if (req.method === "POST") {
-        try {
-            await Promise.all([
-                postOnFacebook(generateNew()),
-                postOnTwitter(generateNew()),
-            ])
-        } catch (err) {
-            console.error(err)
-            return res.status(500).send("Something went wrong")
-        }
+app.get("/", async (req, res, next) => {
+    try {
+        const result = generateNew()
+        return res.status(200).send(result)
+    } catch (err) {
+        return next(err)
+    }
+})
+
+app.post("/", async (req, res, next) => {
+    try {
+        await Promise.all([
+            postOnFacebook(generateNew()),
+            postOnTwitter(generateNew()),
+        ])
 
         return res.status(200).send("OK")
+    } catch (err) {
+        return next(err)
     }
-}
+})
+
+app.use((err, req, res, next) => {
+    console.error(err)
+    if (res.headersSent) return next(err)
+    res.status(500).send("Something went wrong")
+})
+
+exports.entry = app
