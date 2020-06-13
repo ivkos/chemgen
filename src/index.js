@@ -1,3 +1,4 @@
+require("dotenv/config")
 const { pickRandomFromArray, readIntoArray } = require("./utils")
 const postOnFacebook = require("./connectors/ifttt-facebook")
 const postOnTwitter = require("./connectors/ifttt-twitter")
